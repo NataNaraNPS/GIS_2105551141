@@ -41,7 +41,7 @@ class ApiController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request)//login
     {
         $credentials = $request->only('email', 'password');
 
@@ -114,4 +114,6 @@ class ApiController extends Controller
             //'expired' => JWTAuth::getPayload($request->token)->toArray()['exp'] - time() . ' second(s)',
         ], 200);
     }
+
+    
 }

@@ -25,7 +25,6 @@ Route::post('register', [ApiController::class, 'register']);
 Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('logout', [ApiController::class, 'logout']);
     Route::get('getuser', [ApiController::class, 'get_user']);
-    /**
-      * Silahkan tambahkan route anda disini ...
-    */
+    Route::get('/data', [ApiController::class, 'index']);
+    Route::post('/data-create', [ApiController::class,'store']);
 });
