@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use JWTAuth;
 use App\Models\User;
+use App\Models\Data;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Symfony\Component\HttpFoundation\Response;
@@ -113,6 +114,49 @@ class ApiController extends Controller
             //'now' => time(),
             //'expired' => JWTAuth::getPayload($request->token)->toArray()['exp'] - time() . ' second(s)',
         ], 200);
+    }
+
+    public function addRS(Request $request)
+    {
+        // Validasi data input
+        $validator = Validator::make($request->all(), [
+            'nama_rs' => 'required|string',
+            'latitude' => 'required|string',
+            'longtitude' => 'required|string',
+        ]);
+
+        // Cek jika validasi gagal
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()], 422);
+        }
+
+        // Buat entri baru dalam tabel rs
+        $rs = Data::create([
+            'nama_rs' => $request->nama_rs,
+            'latitude' => $request->latitude,
+            'longtitude' => $request->longtitude,
+        ]);
+
+        // Berhasil menambahkan data, kembalikan respons sukses
+        return response()->json([
+            'success' => true,
+            'message' => 'Rumah Sakit ditambahkan berhasil',
+            'data' => $rs
+        ], Response::HTTP_CREATED);
+    }
+
+    // Fungsi untuk menampilkan data rumah sakit dari tabel
+    public function getRS(Request $request)
+    {
+        // Ambil semua data rumah sakit dari tabel
+        $rs = Data::all();
+
+        // Kembalikan respons dengan data rumah sakit
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Rumah Sakit ditemukan',
+            'data' => $rs
+        ], Response::HTTP_OK);
     }
 
     

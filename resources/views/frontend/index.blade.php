@@ -146,7 +146,7 @@
   
           // Membuat icon dari gambar PNG
           var myIcon = L.icon({
-              iconUrl: 'assets/img/icon.png',
+              iconUrl: '{{ asset('frontend/assets/img/icon.png') }}',
               iconSize: [40, 40],
               iconAnchor: [20, 40],
           });
