@@ -70,6 +70,7 @@ class BackendController extends Controller
     // Fungsi untuk menghapus pengguna berdasarkan ID
     public function destroy($id)
     {
-        // Logika untuk menghapus pengguna
+        Data::where('id',$id)->delete();
+        return view('backend.index')->with('success','Data Berhasil Dihapus');
     }
 }

@@ -168,6 +168,13 @@
                       <td>{{ $d->nama_rs }}</td>
                       <td>{{ $d->latitude }}</td>
                       <td>{{ $d->longtitude}}</td>
+                      <td>
+                        <form method="POST" action="{{ route('data.destroy', $d->id) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm show-alert-delete-box" title="Hapus Asset">
+                          <i class="bi bi-trash"></i>
+                        </button>
                   </tr>
               @endforeach
           </tbody>

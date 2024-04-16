@@ -27,4 +27,5 @@ Route::group(['middleware' => ['jwt.verify']], function () {
     Route::get('getuser', [ApiController::class, 'get_user']);
     Route::get('data', [ApiController::class, 'getRS']);
     Route::post('data-create', [ApiController::class,'addRS']);
+    Route::delete('data/{id}', [ApiController::class, 'deleteRS']);
 });

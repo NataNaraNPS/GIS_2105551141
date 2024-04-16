@@ -159,5 +159,15 @@ class ApiController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function deleteRS($id)
+    {
+        try {
+            $data = Data::findOrFail($id);
+            $data->delete();
+            return response()->json(['message' => 'Data deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete data'], 500);
+        }
+    }
     
 }

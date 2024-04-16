@@ -270,31 +270,55 @@
           });
   
           // Ambil data dari server dalam format JSON menggunakan method fetch()
-          fetch("baca.php").then(function(response) {
-                  // return response.text();
-                  return response.json();
-              })
-              .then(function(data) {
-                   console.log(data);
-                   //const originalData = ArchUtils.bz2.decode(data);
-                   //console.log(originalData);
-                   //console.log(JSON.stringify(data).length);
-  
-                  data.forEach(function(c,i){
-                      let latlng = L.latLng(c[0], c[1]);
-                      var newMarker = addMarker(latlng,markers.length);
-                      markers.push(newMarker);
-                  })
-              })
-              .catch(function(error) {
-                  console.log(error);
-              });
-          
+          function showData() {
+    fetch("http://localhost/api-test/public/baca.php")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.length > 0) {
+                data.forEach(function(location, index) {
+                    let lat = parseFloat(location[1]);
+                    let lng = parseFloat(location[2]);
+
+                    // Buat marker baru dengan ikon gambar
+                    var myIcon = L.icon({
+                        iconUrl: '{{ asset('backend/assets/img/icon.png') }}', // Ganti dengan path ikon gambar yang benar
+                        iconSize: [40, 40],
+                        iconAnchor: [20, 40]
+                    });
+
+                    var marker = L.marker([lat, lng], { icon: myIcon }).addTo(mymap);
+
+                    // Buat konten popup untuk marker
+                    var popupContent = `
+                        <div>
+                            <p>Nama RS: ${location[0]}</p>
+                            <p>Latitude: ${lat}</p>
+                            <p>Longitude: ${lng}</p>
+                        </div>
+                    `;
+
+                    marker.bindPopup(popupContent); // Bind popup ke marker
+                });
+            } else {
+                alert("Tidak ada data yang tersedia.");
+            }
+        })
+        .catch(function(error) {
+            console.error('Error fetching data:', error);
+            alert("Terjadi kesalahan saat mengambil data.");
+        });
+}
+
       </script>
     </div>
 
     </section><!-- End Map Section -->
-
+    <br>
+    <button id="showDataButton" onclick="showData()">Tampilkan Data</button>
+    <br><br>
+    
     <div class="card">
       <div class="card-body">
           @if($errors->any())
