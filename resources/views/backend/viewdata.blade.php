@@ -172,6 +172,9 @@
                         <form method="POST" action="{{ route('data.destroy', $d->id) }}">
                         @csrf
                         @method('DELETE')
+                        <a class="btn btn-warning btn-sm" href="{{ route('data.edit', $d->id) }}" title="Ubah Asset">
+                          <i class="bi bi-pencil-fill"></i>
+                        </a>
                         <button type="submit" class="btn btn-danger btn-sm show-alert-delete-box" title="Hapus Asset">
                           <i class="bi bi-trash"></i>
                         </button>

@@ -59,12 +59,37 @@ class BackendController extends Controller
     public function edit($id)
     {
         // Logika untuk menampilkan formulir edit pengguna
+        $row = Data::find($id);
+        return view('backend.editdata',compact('row'));
     }
 
     // Fungsi untuk memperbarui pengguna berdasarkan ID
     public function update(Request $request, $id)
     {
         // Logika untuk memperbarui pengguna
+        $validated = $request->validate(
+            //tentukan validasi data berdasarkan constraint field
+            [
+                'nama_rs' => 'required',
+                'latitude' => 'required',
+                'longtitude' => 'required',
+            ],
+            //custom pesan errornya berbahasa indonesia
+            [
+                'nama_rs.required'=>'Nama Wajib Diisi',
+                'latitude.required'=>'Latitude Wajib Diisi',
+                'longtitude.required'=>'Kategori Wajib Diisi',
+            ]
+        );
+
+        DB::table('tb_rs')->where('id',$id)->update(
+            [
+                'nama_rs'=>$request->nama_rs,
+                'latitude'=>$request->latitude,
+                'longtitude'=>$request->longtitude,
+            ]);
+       
+            return view('backend.index')->with('success','Data Berhasil Diubah');
     }
 
     // Fungsi untuk menghapus pengguna berdasarkan ID
